@@ -1,0 +1,7 @@
+*
+!.gitignore
+node_modules/
+public/storage
+.env
+.documentacion.md
+vendor/
