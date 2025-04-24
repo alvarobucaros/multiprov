@@ -8,7 +8,7 @@ import Pagination from '@/Components//Pagination';
 import MiInput from '@/Components/MiInput';
 import MiLista from '@/Components/MiLista';
  
-export default function Proveedor(props) {
+export default function ProveedorSubgrupo(props) {
     const user = usePage().props.auth.user;
     const [modal,setModal] = useState(false);
     const [title,setTitle] = useState('');
@@ -17,14 +17,9 @@ export default function Proveedor(props) {
     const { data,setData,delete:destroy,post,put,
     processing,reset,errors} = useForm({
         id:'',
-        prv_sociedad_id:user.empresa_id,
-        prv_nombre:'',
-        prv_telefono:'',
-        prv_tipo_doc:'',
-        prv_numero_doc:'',
-        prv_email:'',
-        prv_calificacion:'9',
-        prv_estado:'',       
+        prv_proveedor_id:'',
+        prv_subgrupo_id:'',
+        grp_titulo:'',       
     });
 
     const [role, setRole] = useState(user.role) 
@@ -33,12 +28,11 @@ export default function Proveedor(props) {
         setModal(true);
         setOperation(op);
         if(op === 1){
-            setTitle('Añadir proveedor');
-            setData({prv_sociedad_id:user.empresa_id, prv_nombre:'', prv_telefono:'', prv_tipo_doc:'N',
-                prv_numero_doc:'', prv_email:'', prv_calificacion:'9', prv_estado:'A'});
+            setTitle('Añadir Subgrupo al Proveedor');
+            setData({prv_proveedor_id:'', prv_subgrupo_id:'', grp_titulo:''});
         }
         else{
-            setTitle('Modificar proveedor');
+            setTitle('Modificar Subgrupo al Proveedor');
         }
     }
 
@@ -46,58 +40,48 @@ export default function Proveedor(props) {
         setModal(false);
     }
 
-    const estadoOptions = [
-        { value: '', label: '-- Selecciona un estado --' }, // Opción por defecto/placeholder
-        { value: 'A', label: 'Activo' },
-        { value: 'I', label: 'Inactivo' },
-    ];
 
-    const tipoDocOptions = [
-        { value: '', label: '-- Selecciona un tipo --' }, // Opción por defecto/placeholder
-        { value: 'C', label: 'Cédula' },
-        { value: 'N', label: 'Nit' },
-        { value: 'E', label: 'Cédula Extranjero' },
-        { value: 'P', label: 'Pasaporte' },
-    ];
     const save = (e) =>{
         e.preventDefault();
         if(operation === 1){  
             try {
-                const response = Inertia.post(`/proveedor`, data);
+                const response = Inertia.post(`/proveedorsub`, data);
                 alert('Datos grabados exitosamente');
                 console.log('Respuesta:', response);
             } catch (error) {
-                console.error('Error al crear el proveedor:', error);
+                console.error('Error al crear el Subgrupo del proveedor: ', error);
             }
         }
         else{      
             try {
-                const response = Inertia.put(`/proveedor/${data.id}`, data);
+                const response = Inertia.put(`/proveedorsub/${data.id}`, data);
                 alert('Datos actualizados exitosamente');
                 console.log('Respuesta:', response);
             } catch (error) {
-                console.error('Error al actualizar el proveedor:', error);
+                console.error('Error al actualizar el Subgrupo del proveedor:', error);
             }
             setModal(false);
         }
     }
 
-    const eliminar = (id, prv_nombre) =>{
+    //'proveedorsubgrupos.id', 'proveedorsubgrupos.prv_proveedor_id', 'proveedorsubgrupos.prv_subgrupo_id', 'subgrupos.sgr_titulo as grp_titulo'
+
+    const eliminar = (id, grp_titulo) =>{
         const alerta = Swal.mixin({ buttonsStyling:true});
             alerta.fire({
-            title:'Seguro de eliminar el proveedor '+id + ' '+prv_nombre,
-            text:'Se perderá el proveedor',
+            title:'Seguro de eliminar el Subgrupo del proveedor '+id + ' '+grp_titulo,
+            text:'Se perderá el Subgrupo',
             icon:'question', showCancelButton:true,
             confirmButtonText: '<i class="fa-solid fa-check"></i> Si, eliminar',
             cancelButtonText:'<i class="fa-solid fa-ban"></i>No, Cancelar'
         }).then((result) => {
             if(result.isConfirmed){
-                Inertia.delete(`/proveedor/${id}`, {
+                Inertia.delete(`/proveedorsub/${id}`, {
                     onSuccess: () => {
-                        alert('Proveedor eliminado exitosamente.');
+                        alert('Subgrupo eliminado exitosamente.');
                     },
                     onError: (errors) => {
-                        console.error('Error al eliminar el proveedor:', errors);
+                        console.error('Error al eliminar el Subgrupo:', errors);
                     },
                 });
             }
@@ -123,76 +107,57 @@ export default function Proveedor(props) {
                     <button
                         className="bg-blue-500 text-white px-4 py-1 rounded mb-4"
                         onClick={() => openModal(1)}
-                        > Crear Proveedor 
+                        > Crear Subgrupo al proveedor 
                     </button>
                 </>
             )}
             <Link
-                href="/dashboard"
+                href="/proveedor"
                 className="bg-green-500 text-white px-4 py-1 mx-4 rounded mb-4"
-            > Al Menú
-            </Link> 
-            <span className='bg-blue-100'> LISTA DE PROVEEDORES</span> 
+            > Al proveedor
+            </Link>
+            <span>PROVEEDOR SUB GRUPO DE PRODUCTOS</span>
             <div className="bg-white grid v-screen place-items-center py-1">
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr className='bg-gray-100'>
                             <th className='px-2 py-1'>#</th>
-                            <th className='px-2 py-1'>NOMBRE</th>
-                            <th className='px-2 py-1'>TELEFONO</th>
-                            <th className='px-2 py-1'>DOCUMENTO</th>
-                            <th className='px-2 py-1'>CORREO</th>
-                            <th className='px-2 py-1'>CALIFICACIÓN</th>
-                            <th className='px-2 py-1'>ESTADO</th>
+                            <th className='px-2 py-1'>GRUPO</th>
+
                             <th className='px-2 py-1' colSpan={2}></th>
                             
                         </tr>
                     </thead>
                 
                     <tbody>
-                        {props.proveedores.data.map((proveedor) => (
-                            <tr key={proveedor.id}>
-                                <td className='border border-gray-400 px-2 py-1'>{proveedor.id}</td>
-                                <td className='border border-gray-400 px-2 py-1'>{proveedor.prv_nombre}</td>
-                                <td className='border border-gray-400 px-2 py-1'>{proveedor.prv_telefono}</td>
-                                <td className='border border-gray-400 px-2 py-1'>{proveedor.prv_tipo_doc}-{proveedor.prv_numero_doc}</td>
-                                <td className='border border-gray-400 px-2 py-1'>{proveedor.prv_email}</td>
-                                <td className='border border-gray-400 px-2 py-1'>{proveedor.prv_calificacion}</td>
-                                <td className='border border-gray-400 px-2 py-1'>{proveedor.prv_estado}</td>
-                                {role !== 'User' && (
-                                    <> {/* <-- Fragmento para agrupar los td */}
-                                    <td className='border border-gray-400 px-1 py-1 w-12'>
-                                        <button
-                                        className="bg-yellow-500 text-white px-2 py-1 rounded"
-                                        onClick={() => {
-                                            setData(proveedor); // Precarga los datos en formulario
-                                            openModal(0); //                                         
-                                        }}
-                                        >
-                                        Editar
+                        {props.provsubgrupos.data.map((provsubgrupo) => (
+                            <tr key={provsubgrupo.id}>
+                                <td className='border border-gray-400 px-2 py-1'>{provsubgrupo.id}</td>
+                                <td className='border border-gray-400 px-2 py-1'>{provsubgrupo.grp_titulo}</td>
+      
+                                <td className='border border-gray-400 px-2 py-1 w-12'>
+                                    <button
+                                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                                    onClick={() => {
+                                        setData(provsubgrupo); // Precarga los datos en el formulario
+                                        openModal(0); //                                         
+                                    }}
+                                >
+                                    Editar
+                                </button>
+                                </td>
+                                <td className='border border-gray-400 px-2 py-1 w-12'>
+                                    <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded'
+                                    onClick={() => eliminar(provsubgrupo.id,provsubgrupo.grp_titulo)}>
+                                    Eliminar
                                     </button>
-                                    </td>
-                                    <td className='border border-gray-400 px-1 py-1 w-12'>
-                                        <Link
-                                            href={`/proveedorsub/${proveedor.id}`}
-                                            className="mx-4 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded"
-                                        >SubGrupos
-                                        </Link>    
-                                    </td>
-                                    <td className='border border-gray-400 px-1 py-1 w-12'>
-                                        <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded'
-                                        onClick={() => eliminar(proveedor.id,proveedor.prv_nombre)}>
-                                        Eliminar
-                                        </button>
-                                    </td>
-                                    </>
-                                )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
         
-                    <Pagination class="mt-6" links={props.proveedores.links} />
+                    <Pagination class="mt-6" links={props.provsubgrupos.links} />
    
             </div>
         </div>
@@ -200,7 +165,7 @@ export default function Proveedor(props) {
                 <h2 className="p-3 text-lg font-medium text-gray-900">
                     {title}
                 </h2>
-                <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
+                {/* <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
                     <form onSubmit={save}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -245,7 +210,7 @@ export default function Proveedor(props) {
                             </div>
                         </div>
                     </form>
-                </div>
+                </div> */}
             </Modal>
         </AuthenticatedLayout>
     );

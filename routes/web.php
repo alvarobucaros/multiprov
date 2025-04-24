@@ -8,12 +8,14 @@ use Inertia\Inertia;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EjemploController;
 
+use App\Http\Controllers\api\EmpresaController;
 use App\Http\Controllers\Api\CotizacionController as ApiCotizacionController;
 use App\Http\Controllers\Api\CotizaciondetalleController as ApiCotizaciondetalleController;
 use App\Http\Controllers\Api\GrupoController as ApiGrupoController;
 use App\Http\Controllers\Api\SubgrupoController as ApiSubgrupoController;
 use App\Http\Controllers\Api\ProductoController as ApiProductoController;
 use App\Http\Controllers\Api\ProveedorController as ApiProveedorController;
+use App\Http\Controllers\Api\ProveedorSubgruController as ApiProveedorSubgruController;
 use App\Http\Controllers\Api\ParametroController as ApiParametroController;
 use App\Http\Controllers\Api\UserController as ApiUserController;
 
@@ -54,9 +56,6 @@ Route::delete('/producto/{id}', [ApiProductoController::class, 'destroy'])->name
 
 
 Route::get('/parametro', [ApiParametroController::class, 'index'])->name('parametro');
-//Route::put('/parametro/{id}', [ApiParametroController::class, 'update'])->name('parametro.update');
-//Route::post('/parametro', [ApiParametroController::class, 'store'])->name('parametro.store');
-//Route::post('/parametro/{id}/update', [ApiParametroController::class, 'update'])->name('parametro.update');
 Route::put('/parametro/{id}', [ApiParametroController::class, 'update'])->name('parametro.store');
 
 Route::get('/proveedor', [ApiProveedorController::class, 'index'])->name('proveedor');
@@ -64,6 +63,11 @@ Route::get('/proveedor/{id}', [ApiProveedorController::class, 'show'])->name('pr
 Route::post('/proveedor', [ApiProveedorController::class, 'store'])->name('proveedor.store');
 Route::put('/proveedor/{id}', [ApiProveedorController::class, 'update'])->name('proveedor.update');
 Route::delete('/proveedor/{id}', [ApiProveedorController::class, 'destroy'])->name('proveedor.destroy');
+
+Route::get('/proveedorsub/{id}', [ApiProveedorSubgruController::class, 'index'])->name('proveedorsub');
+Route::put('/proveedorsub/{id}', [ApiProveedorSubgruController::class, 'update'])->name('proveedorsub.update');
+Route::delete('/proveedorsub/{id}', [ApiProveedorSubgruController::class, 'destroy'])->name('proveedorsub.destroy');
+Route::post('/proveedorsub', [ApiProveedorSubgruController::class, 'store'])->name('proveedorsub.store');
 
 Route::get('/grupo', [ApiGrupoController::class, 'index'])->name('grupo');
 Route::get('/grupo/{id}', [ApiGrupoController::class, 'show'])->name('grupo.show');
@@ -82,7 +86,6 @@ Route::get('/user/{id}', [ApiUserController::class, 'show'])->name('user.show');
 Route::post('/user', [ApiUserController::class, 'store'])->name('user.store');
 Route::put('/user/{id}', [ApiUserController::class, 'update'])->name('user.update');
 Route::delete('/user/{id}', [ApiUserController::class, 'destroy'])->name('user.destroy');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

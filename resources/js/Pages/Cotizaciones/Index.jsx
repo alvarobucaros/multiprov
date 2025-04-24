@@ -179,6 +179,7 @@ export default function Producto(props) {
                     className="bg-green-500 text-white px-4 py-1 mx-4 rounded mb-4"
                     > Al Menú
                 </Link>
+                <span className='bg-blue-100'> COTIZAR PRODUCTOS</span> 
             </div>
 
             <div className="bg-white grid v-screen place-items-center py-1">

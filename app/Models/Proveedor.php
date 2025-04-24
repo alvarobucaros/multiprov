@@ -22,12 +22,7 @@ class Proveedor extends Model
         'prv_calificacion', 
         'prv_estado'
     ];
-    // protected $casts = [
-    //     'prv_estado' => '',
-    //     'prv_calificacion' => 'integer',
-
-    // ];
-
+ 
     // Relación con Empresa (Asegúrate de tener el modelo Empresa)
     public function empresa(): BelongsTo
     {

@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proveegorgrupo', function (Blueprint $table) {
+        Schema::create('proveedorsubgrupos', function (Blueprint $table) {
             $table->id();
+            $table->integer('prv_proveedor_id')->constrained('proveedores')->onDelete('cascade'); 
+            $table->integer('prv_subgrupo_id')->constrained('subgrupos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proveegorgrupo');
+        Schema::dropIfExists('proveedorsubgruposs');
     }
 };

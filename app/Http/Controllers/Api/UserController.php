@@ -12,22 +12,7 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
 
-        /**
-     * Update the user's password.
-     */
-    // public function update2(Request $request): RedirectResponse
-    // {
-    //     $validated = $request->validate([
-    //         'current_password' => ['required', 'current_password'],
-    //         'password' => ['required', Password::defaults(), 'confirmed'],
-    //     ]);
-
-    //     $request->user()->update2([
-    //         'password' => Hash::make($validated['password']),
-    //     ]);
-
-    //     return back();
-    // }
+  
     /**
      * Display a listing of the resource. 
      */

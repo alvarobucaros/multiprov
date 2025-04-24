@@ -6,3 +6,11 @@ https://medium.com/@laravelprotips/creating-a-react-js-laravel-api-crud-a-simple
 
 estudiar
 https://www.twilio.com/en-us/blog/laravel-breeze-vs-laravel-jetstream
+
+
+git add .
+git commit -m "Actualización de código"
+git push origin main
+
+Si estás trabajando con más personas, no olvides realizar git pull origin main antes de hacer cambios para evitar conflictos.
+

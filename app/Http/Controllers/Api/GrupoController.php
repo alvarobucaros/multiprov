@@ -37,7 +37,6 @@ class GrupoController extends Controller
             'grp_empresa_id' => 'required',
             'grp_titulo' => 'required|max:50',
             'grp_detalle' => 'required|max:200',
-
         ]);
 
         Grupo::create($request->all());

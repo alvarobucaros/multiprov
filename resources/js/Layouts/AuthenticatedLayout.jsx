@@ -3,16 +3,90 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+    const [u, setU] = useState(user.empresa_id);
+    const [empresa, setEmpresa] = useState(null);
+    const [error, setError] = useState(null);
+    const [miEmpresa, setMiEmpresa] = useState([]);
+
+    
+    function TuComponente(u, setEmpresa, setError, setMiEmpresa) { // Asumiendo que user viene de props
+    
+        useEffect(() => {
+            // 1. Define una función async dentro del useEffect
+            const cargarDatosEmpresa = async () => {
+                // Verifica si 'u' tiene un valor antes de intentar la llamada
+                if (!u) {
+                    console.log('No se proporcionó un ID de empresa.');
+                    setError('ID de empresa no disponible.'); // Opcional: informa al usuario
+                    setEmpresa(null); // Asegúrate de limpiar el estado si no hay ID
+                    return; // Sal de la función si no hay ID
+                }
+    
+                console.log('Intentando cargar empresa con ID (async/await): ' + u);
+    
+                try {
+                    // 2. Usa await para esperar la respuesta de axios
+                    //    Asegúrate de que la URL sea correcta (probablemente necesites /api/ como vimos antes)
+                    const response = await axios.get(`/empresa/${u}`); // <-- Ajusta la URL si es necesario
+    
+                    // 3. Si la llamada es exitosa (no lanza error), actualiza el estado
+                    setEmpresa(response.data);
+                    setError(null); // Limpia cualquier error previo
+                    // var miemp = JSON.stringify(response.data);
+                    // setMiEmpresa(miemp);
+                    console.log('Datos de la empresa cargados (async/await):', response.data);
+    
+                } catch (err) {
+                    // 4. Si axios.get lanza un error  (ej: 404, 500, error de red), entra al catch
+                    console.error('Error al cargar los datos de la empresa (async/await):', err.response || err);
+    
+                    // Intenta obtener un mensaje de error más específico si está disponible
+                    const errorMessage = err.response?.data?.message || // Mensaje de tu API (si lo envías en JSON)
+                                         err.message || // Mensaje de error genérico de Axios/JS
+                                         'Ocurrió un error inesperado al cargar los datos.';
+    
+                    setError(`Error al cargar los datos: ${errorMessage}`);
+                    setEmpresa(null); // Limpia los datos de empresa en caso de error
+                }
+            };
+    
+            // 5. Llama a la función async que acabas de definir
+            cargarDatosEmpresa();
+    
+        }, [u]); // El array de dependencias sigue siendo importante
+    }
+
+
+   TuComponente(u, setEmpresa, setError)
 
     return (
+     
         <div className="min-h-screen bg-gray-100">
+
+            <div display="none">
+                <div>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {empresa ? (
+                        <div>
+                            <h2 className='bg-gray-100 text-center' >Empresa : {empresa.emp_nombre}</h2>
+                            {/* <pre>{JSON.stringify(empresa)}</pre> */}
+                            {/* <p>{empresa.emp_nombre}</p> */}
+                        </div>
+                    ) : (
+                        !error && <p>Cargando datos de la empresa...</p> // Muestra un mensaje de carga
+                    )}
+                </div>
+            </div>
+
+
             <nav className="border-b border-gray-100 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
@@ -20,7 +94,9 @@ export default function AuthenticatedLayout({ header, children }) {
                             <div className="flex shrink-0 items-center">
                                 <div>
                                 <Link href="/">
-                                    <h3 className='bg-amber-300 px-4'>REGISTRO DE PROVEEDORES </h3> 
+                                    <h3 className='bg-amber-300 px-4'>REGISTRO DE PROVEEDORES 
+                                 
+                                    </h3> 
                                 </Link>
                                 </div>                               
                             </div>
@@ -36,7 +112,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 type="button"
                                                 className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
-                                                {user.name} ({user.role}) - {user.empresa_id}
+                                                {user.name} ({user.role}) : {user.emp_nombre}
 
                                                 <svg
                                                     className="-me-0.5 ms-2 h-4 w-4"

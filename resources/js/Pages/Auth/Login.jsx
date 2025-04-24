@@ -65,7 +65,7 @@ export default function Login({ status, canResetPassword }) {
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="mt-4 block">
+                <div className="mt-4 block" style={{ display: 'none', alignItems: 'center' }}>
                     <label className="flex items-center">
                         <Checkbox
                             name="remember"
@@ -81,6 +81,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">
+                    <div style={{display: 'none' }}>
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
@@ -89,8 +90,8 @@ export default function Login({ status, canResetPassword }) {
                             Forgot your password?
                         </Link>
                     )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
+</div>
+                    <PrimaryButton className="bg-green-600 text-white px-4 py-1 rounded mb-4" disabled={processing}>
                         Log in
                     </PrimaryButton>
                 </div>

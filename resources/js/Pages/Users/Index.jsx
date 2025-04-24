@@ -1,23 +1,22 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Inertia } from '@inertiajs/inertia';
 import Modal from '@/Components/Modal';
-import { useRef, useState, React } from 'react';
-import { Head ,useForm, usePage, Link} from '@inertiajs/react';
+import {useState, React } from 'react';
+import {useForm, usePage, Link} from '@inertiajs/react';
 import Swal from 'sweetalert2';
 import Pagination from '@/Components//Pagination';
 import MiInput from '@/Components/MiInput';
 import MiListaU from '@/Components/MiListaU';
 
 export default function User(props) {
-    const userAut = usePage().props.auth.user;
+    const user = usePage().props.auth.user;
     const [modal,setModal] = useState(false);
     const [title,setTitle] = useState('');
     const [operation,setOperation] = useState(1);
 
     const { data,setData,delete:destroy,post,put,
-    processing,reset,errors} = useForm({
-   
-        empresa_id:userAut.empresa_id,
+    processing,reset,errors} = useForm({   
+        empresa_id:user.empresa_id,
         name: '',
         email: '',
         email_verified_at: 'null',
@@ -34,7 +33,7 @@ export default function User(props) {
         setOperation(op);
         if(op === 1){
             setTitle('Añadir usuario');
-            setData({ empresa_id:userAut.empresa_id, name:'',email:'',email_verified_at:'null',  
+            setData({ empresa_id:user.empresa_id, name:'',email:'',email_verified_at:'null',  
                 password:'', role:'User', remember_token:'null'});   
         }
         else{
@@ -131,7 +130,8 @@ export default function User(props) {
                 href="/dashboard"
                 className="bg-green-500 text-white px-4 py-1 mx-4 rounded mb-4"
                 > Al Menú
-            </Link>        
+            </Link>    
+            <span className='bg-blue-100'> USUARIOS DE LA APLICACION</span>    
             <div className="bg-white grid v-screen place-items-center py-1">
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
