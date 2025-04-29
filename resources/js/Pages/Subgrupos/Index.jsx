@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import Pagination from '@/Components//Pagination';
 import MiInput from '@/Components/MiInput';
 import MiLista from '@/Components/MiLista';
+import MiSelectDinamico from '@/Components/MiSelectDinamico';
 
 export default function Subgrupo(props) {
     const user = usePage().props.auth.user;
@@ -33,7 +34,7 @@ export default function Subgrupo(props) {
         setOperation(op);
         if(op === 1){
             setTitle('Añadir subgrupo');
-            setData({sgr_empresa_id:user.empresa_id,sgr_grupo_id:'', sgr_titulo:'', sgr_detalle:'', sgr_estado:'A'});   
+            setData({sgr_empresa_id:user.empresa_id,sgr_grupo_id:'', sgr_titulo:'', sgr_detalle:'', sgr_estado:''});   
         }
         else{
             setTitle('Modificar subgrupo');
@@ -178,29 +179,11 @@ export default function Subgrupo(props) {
                 <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
                     <form onSubmit={save}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                            {/* <MiLista Id="sgr_grupo_id"  Label="Grupo"  data ={data.sgr_grupo_id} 
-                                options = {grupos} OnChange={handleChange} required={true}></MiLista>                                    */}
-
-                            <div>  
-                                <label htmlFor="sgr_grupo_id" className="block text-sm font-medium text-gray-700">Grupos </label>
-
-                                <select
-                                    id="sgr_grupo_id" name="sgr_grupo_id"
-                                    value={data.sgr_grupo_id}
-                                    onChange={handleChange} 
-                                    required={true}
-                                    className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                >
-                                {grupos.map((grupo) => (
-                                        <option key={grupo.id} value={grupo.id}>
-                                            {grupo.grp_titulo}
-                                        </option>
-                                    ))}
-
-                                </select>
-                            </div>
-    
+                                
+                            <MiSelectDinamico 
+                                Id="sgr_grupo_id"  Label="Grupo"  data ={data.sgr_grupo_id} 
+                                listas = {grupos} OnChange={handleChange} required={true}>
+                            </MiSelectDinamico>
 
                             <MiInput  Id="sgr_titulo" Type="text" Label="Titulo SubGrupo" onChange={handleChange}
                             classNameI="md:col-span-2" maxLength ="50" data ={data.sgr_titulo} required={true}  

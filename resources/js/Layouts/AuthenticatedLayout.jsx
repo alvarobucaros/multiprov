@@ -22,7 +22,7 @@ export default function AuthenticatedLayout({ header, children }) {
         useEffect(() => {
             // 1. Define una función async dentro del useEffect
             const cargarDatosEmpresa = async () => {
-                // Verifica si 'u' tiene un valor antes de intentar la llamada
+                // Verifica si u tiene un valor antes de intentar la llamada
                 if (!u) {
                     console.log('No se proporcionó un ID de empresa.');
                     setError('ID de empresa no disponible.'); // Opcional: informa al usuario
@@ -30,7 +30,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     return; // Sal de la función si no hay ID
                 }
     
-                console.log('Intentando cargar empresa con ID (async/await): ' + u);
+       //         console.log('Intentando cargar empresa con ID (async/await): ' + u);
     
                 try {
                     // 2. Usa await para esperar la respuesta de axios
@@ -42,7 +42,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     setError(null); // Limpia cualquier error previo
                     // var miemp = JSON.stringify(response.data);
                     // setMiEmpresa(miemp);
-                    console.log('Datos de la empresa cargados (async/await):', response.data);
+                    // console.log('Datos de la empresa cargados (async/await):', response.data);
     
                 } catch (err) {
                     // 4. Si axios.get lanza un error  (ej: 404, 500, error de red), entra al catch
@@ -77,8 +77,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     {empresa ? (
                         <div>
                             <h2 className='bg-gray-100 text-center' >Empresa : {empresa.emp_nombre}</h2>
-                            {/* <pre>{JSON.stringify(empresa)}</pre> */}
-                            {/* <p>{empresa.emp_nombre}</p> */}
+    
                         </div>
                     ) : (
                         !error && <p>Cargando datos de la empresa...</p> // Muestra un mensaje de carga
@@ -96,9 +95,9 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <Link href="/">
                                     <h3 className='bg-amber-300 px-4'>REGISTRO DE PROVEEDORES 
                                  
-                                    </h3> 
+                                    </h3>
                                 </Link>
-                                </div>                               
+                                </div>
                             </div>
 
                          </div>

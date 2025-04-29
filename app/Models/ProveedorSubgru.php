@@ -9,7 +9,7 @@ class ProveedorSubgru extends Model
     protected $table = 'proveedorsubgrupos';
 
     protected $fillable = [
-        'prs_proveedor_id', 
-        'prs_subgrupo_id', 
+        'prv_proveedor_id', 
+        'prv_subgrupo_id', 
     ];
 }

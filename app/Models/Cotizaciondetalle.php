@@ -15,7 +15,7 @@ class Cotizaciondetalle extends Model
     protected $table = 'cotizaciondetalles';
 
     protected $fillable = ['cds_cotizacion_id', 'cds_producto_id', 'cds_cantidad', 
-    'cds_unidadMedida','cds_destalle'];
+    'cds_unidadMedida','cds_detalle'];
 
     public function cotizacion()
     {

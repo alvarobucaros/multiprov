@@ -1,52 +1,46 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Inertia } from '@inertiajs/inertia';
 import Modal from '@/Components/Modal';
-
-
-import React, { useState, useEffect } from 'react';
-
-import { Head ,useForm, usePage, Link} from '@inertiajs/react';
+import React, { useState} from 'react';
+import {useForm, usePage, Link} from '@inertiajs/react';
 import Swal from 'sweetalert2';
 import Pagination from '@/Components//Pagination';
 import MiInput from '@/Components/MiInput';
-import MiLista from '@/Components/MiLista';
-import axios from 'axios';
+import MiTextArea from '@/Components/MiTextArea';
+
 
 export default function Producto(props) {
     const user = usePage().props.auth.user;
     const [modal,setModal] = useState(false);
-    // const [modalPr,setModalPr] = useState(false);
     const [title,setTitle] = useState('');
     const [operation,setOperation] = useState(1);
+
+    const [cotizacion, setCotizacion] = useState(props.cotizacion);
+
+     const [productos, setProductos] = useState(props.productos);
 
     const { data,setData,delete:destroy,post,put,
     processing,reset,errors} = useForm({
         id:'',       
-        cot_empresa_id:user.empresa_id,
-        cot_numero: '',
-        cot_fecha: '',
-        cot_titulo: '',
-        cot_detalle: '',
-        emp_nrocotizacion: '',
-        cot_estado: 'A',
+        cds_cotizacion_id:cotizacion.id,
+        cds_producto_id:'',
+        cds_cantidad:'',
+        cds_unidadMedida:'',
+        cds_detalle:'',
     });
-
-    // Estado para guardar los detalles de la cotización
-    const [detalles, setDetalles] = useState([]);
-
-    // Estado para manejar errores
-    const [errorDetalles, setErrorDetalles] = useState(null);
-    // Estado para privilegios de usuario
-    const [role, setRole] = useState(user.role) 
     
+    const [role, setRole] = useState(user.role) 
 
     const openModal = (op) =>{
         setModal(true);
         setOperation(op);
         if(op === 1){
             setTitle('Añadir cotizacion');
-            setData({cot_empresa_id:user.empresa_id,  cot_numero: '', cot_fecha: '', cot_titulo: '',
-                cot_detalle: '', emp_nrocotizacion: '', cot_estado: 'A'});   
+            setData({ cds_cotizacion_id:cotizacion[0].id,
+                cds_producto_id:'',
+                cds_cantidad:'',
+                cds_unidadMedida:'',
+                cds_detalle:''});   
         }
         else{
             setTitle('Modificar cotizacion');
@@ -57,35 +51,28 @@ export default function Producto(props) {
         setModal(false);
     }
 
-    const estadoOptions = [
-        { value: '', label: '-- Selecciona un estado --' }, // O pción por defecto/placeholder
-        { value: 'I', label: 'Iniciada' },
-        { value: 'P', label: 'En proceso' },
-        { value: 'C', label: 'Cerrada' },
-    ];
-
-      const save = (e) =>{
-          e.preventDefault();
-          if(operation === 1){  
-              try {
-                  const response = Inertia.post(`/cotizacion`, data);
-                  alert('Datos creados exitosamente');
-                  console.log('Respuesta:', response);
-              } catch (error) {
-                  console.error('Error al crear la cotizacion:', error);
-              }
-          }
-          else if(operation === 0){      
-              try {
-                  const response = Inertia.put(`/cotizacion/${data.id}`, data);
-                  alert('Datos actualizados exitosamente');
-                  console.log('Respuesta:', response);
-              } catch (error) {
-                  console.error('Error al actualizar la cotizacion:', error);
-              }
-              setModal(false);
-          }
-      }
+    const save = (e) =>{
+        e.preventDefault();
+        if(operation === 1){  
+            try {
+                const response = Inertia.post(`/cotizaciondetalle`, data);
+                alert('Datos creados exitosamente');
+                console.log('Respuesta:', response);
+            } catch (error) {
+                console.error('Error al crear la cotizaciondetalle:', error);
+            }
+        }
+        else if(operation === 0){      
+            try {
+                const response = Inertia.put(`/cotizaciondetalle/${data.id}`, data);
+                alert('Datos actualizados exitosamente');
+                console.log('Respuesta:', response);
+            } catch (error) {
+                console.error('Error al actualizar la cotizaciondetalle:', error);
+            }
+            setModal(false);
+        }
+    }
  
     const eliminar = (id, detalle) =>{
         const alerta = Swal.mixin({ buttonsStyling:true});
@@ -97,12 +84,12 @@ export default function Producto(props) {
             cancelButtonText:'<i class="fa-solid fa-ban"></i>No, Cancelar'
         }).then((result) => {
             if(result.isConfirmed){
-                Inertia.delete(`/cotizacion/${id}`, {
+                Inertia.delete(`/cotizaciondetalle/${id}`, {
                     onSuccess: () => {
-                        alert('cotizacion eliminado exitosamente.');
+                        alert('Detalle de la cotización eliminado exitosamente.');
                     },
                     onError: (errors) => {
-                        console.error('Error al eliminar la cotizacion:', errors);
+                        console.error('Error al eliminar la cotizacion detalle:', errors);
                     },
                 });
             }
@@ -117,8 +104,6 @@ export default function Producto(props) {
         }));
     }
 
-
-
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -131,15 +116,17 @@ export default function Producto(props) {
                         <button
                             className="bg-blue-500 text-white px-4 py-1 rounded mb-4"
                             onClick={() => openModal(1)}
-                            > Crear cotiza 
+                            > Crear detalle de cotización 
                         </button>
                     </>
                 )}
                 <Link
-                    href="/dashboard"
+                    href="/cotizacion"
                     className="bg-green-500 text-white px-4 py-1 mx-4 rounded mb-4"
                     > Al Menú
                 </Link>
+                <span className='bg-blue-100'> DETALLES DE LA COTIZACION : &nbsp; {cotizacion[0].cot_numero} 
+                &nbsp; de &nbsp;{cotizacion[0].cot_fecha}  -  {cotizacion[0].cot_titulo}</span> 
             </div>
 
             <div className="bg-white grid v-screen place-items-center py-1">
@@ -155,9 +142,9 @@ export default function Producto(props) {
                             <th className='px-2 py-1' colSpan={3}>COMANDOS</th>
                         </tr>
                     </thead>
- id', 'cds_cotizacion_id', 'cds_producto_id', 'prd_titulo', 'cds_cantidad', 'cds_unidadMedida', 'cds_detalle'
+
                     <tbody>
-                        {props.cotizaciondetalle.data.map((cotizacionDet) => (
+                        {props.cotizaciondetalle.map((cotizacionDet, key) => (
                             <tr key={cotizacionDet.id}>
                                 <td className='border border-gray-400 px-2 py-1'>{cotizacionDet.id}</td>
                                 <td className='border border-gray-400 px-2 py-1'>{cotizacionDet.prd_titulo}</td>
@@ -184,12 +171,12 @@ export default function Producto(props) {
                                         className="mx-4 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded"
                                     >Detalles
                                     </Link>
-     
+
                                     </td>
                                     <td className='border border-gray-400 px-1 py-1 w-12'>
                                         <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded'
                                        
-                                       onClick={() => eliminar(cotizacionDet.id, cotizacionDet.titulo+' - '+cotizacionDet.cot_numero+' del '+cotizacionDet.cot_fecha)}>
+                                       onClick={() => eliminar(cotizacionDet.id, cotizacionDet.prd_titulo+' - '+cotizacionDet.cds_detalle)}>
                                         Eliminar
                                         </button>
                                     </td>
@@ -199,35 +186,47 @@ export default function Producto(props) {
                         ))}
                     </tbody>
                 </table>
-                    <Pagination class="mt-6" links={props.cotizaciondetalle.links} />
+                   
             </div> 
 
             <Modal show={modal} onClose={closeModal}>
-                {/* <h2 className="p-3 text-lg font-medium text-gray-900">
+                <h2 className="p-3 text-lg font-medium text-gray-900">
                     {title} 
                 </h2>
                 <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
                     <form onSubmit={save}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                        <MiInput  Id="cot_numero" Type="number" Label="Número" onChange={handleChange}
-                        classNameI="md:col-span-2" maxLength ="10" data ={data.cot_numero} required={true}  
+                        <div>  
+                            <label htmlFor="cds_producto_id" className="block text-sm font-medium text-gray-700">Producto </label>
+                            <select
+                                id="cds_producto_id" name="cds_producto_id"
+                                value={data.cds_producto_id}
+                                onChange={handleChange} 
+                                required={true}
+                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
+                            >
+                                <option key={0} value={''}>
+                                        {'Seleccione un producto'}
+                                </option>
+                                {productos.map((producto) => (
+                                    <option key={producto.id} value={producto.id}>
+                                        {producto.prd_titulo}
+                                    </option>
+                                ))}
+                            </select>                                
+                        </div>
+
+                        <MiInput  Id="cds_cantidad" Type="number" Label="Cantidad" onChange={handleChange}
+                        classNameI="md:col-span-2" maxLength ="10" data ={data.cds_cantidad} required={true}  
                         OnChange = {handleChange} ></MiInput>
 
-                        <MiInput  Id="cot_fecha" Type="date" Label="Fecha" onChange={handleChange}
-                        classNameI="md:col-span-2" maxLength ="16" data ={data.cot_fecha} required={true}  
+                        <MiInput  Id="cds_unidadMedida" Type="text" Label="Unidad" onChange={handleChange}
+                        classNameI="md:col-span-2" maxLength ="16" data ={data.cds_unidadMedida} required={true}  
                         OnChange = {handleChange} ></MiInput>
 
-                        <MiInput  Id="cot_titulo" Type="text" Label="Titulo" onChange={handleChange}
-                        classNameI="md:col-span-2" maxLength ="50" data ={data.cot_titulo} required={true}
-                        OnChange = {handleChange} ></MiInput>
-
-                        <MiInput  Id="cot_detalle" Type="text" Label="Detalles" onChange={handleChange}
-                        classNameI="md:col-span-2" maxLength ="150" data ={data.cot_detalle} required={true}
-                        OnChange = {handleChange} ></MiInput>
-                    
-                        <MiLista Id="cot_estado"  Label="Estado"  data ={data.cot_estado} 
-                        options = {estadoOptions} OnChange={handleChange} required={true}></MiLista>
+                        <MiTextArea Id="cds_detalle" Rows="2" Cols="100" Label="Detalles" classNameI="md:col-span-2"
+                         data ={data.cds_detalle} required={true} OnChange={handleChange}></MiTextArea>
 
                         <div className="flex justify-end">
                             <button type="button"
@@ -243,7 +242,7 @@ export default function Producto(props) {
                         </div>
                     </div>                      
                     </form>
-                </div> */}
+                </div> 
             </Modal>
 
     </AuthenticatedLayout>

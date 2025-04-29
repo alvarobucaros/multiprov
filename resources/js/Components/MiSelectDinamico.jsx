@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 // - required: Booleano para marcar el campo como requerido (opcional)
 
 
-export default function MiListaU({Id, Label, data, options = [],  OnChange, required}) 
+export default function MiSelectDinamico({Id, Label, data, listas = [],  OnChange, required}) 
 {
     const [inputValue, setInputValue] = useState(data || ''); // Inicializa con el valor de "data"
 
@@ -19,6 +19,7 @@ export default function MiListaU({Id, Label, data, options = [],  OnChange, requ
     return (
         <div>  
             <label htmlFor={Id} className="block text-sm font-medium text-gray-700">{Label} </label>
+
             <select
                 id={Id}
                 name={Id}
@@ -27,14 +28,16 @@ export default function MiListaU({Id, Label, data, options = [],  OnChange, requ
                 required={required}
                 className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
             >
-                <option key='0' value="">Selecione una opción</option>
+                <option value="">Selecione una opción</option>
                 {/* Renderiza las opciones pasadas */}
-                {options.map((option) => (
-                    <option key={option.value} value={option.label}>
-                        {option.label}
+                {listas.map((lista) => (
+                    <option key={lista.id} value={lista.id}>
+                        {lista.opcion}
                     </option>
                 ))}
-            </select>  
+            </select>
+           
         </div>
     );
 }
+

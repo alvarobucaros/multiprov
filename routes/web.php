@@ -41,11 +41,9 @@ Route::put('/cotizacion/{id}', [ApiCotizacionController::class, 'update'])->name
 Route::delete('/cotizacion/{id}', [ApiCotizacionController::class, 'destroy'])->name('cotizacion.destroy');
 
 Route::get('/cotizaciondetalle', [ApiCotizaciondetalleController::class, 'index'])->name('cotizaciondetalle');
-//Route::get('/cotizaciondetalle/{id}', [ApiCotizaciondetalleController::class, 'show'])->name('cotizaciondetalle.getDetalles');
 Route::post('/cotizaciondetalle', [ApiCotizaciondetalleController::class, 'store'])->name('cotizaciondetalle.store');
 Route::put('/cotizaciondetalle/{id}', [ApiCotizaciondetalleController::class, 'update'])->name('cotizaciondetalle.update');
 Route::delete('/cotizaciondetalle/{id}', [ApiCotizaciondetalleController::class, 'destroy'])->name('cotizaciondetalle.destroy');
-
 Route::get('/cotizaciondetalle/{id}', [ApiCotizaciondetalleController::class, 'getDetalles'])->name('cotizaciondetalle.getDetalles');;
 
 Route::get('/producto', [ApiProductoController::class, 'index'])->name('producto');

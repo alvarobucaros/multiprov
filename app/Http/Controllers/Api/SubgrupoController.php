@@ -28,7 +28,7 @@ class SubgrupoController extends Controller
         ->paginate(10);   
 
         $grupos = Grupo::where('grp_empresa_id', $user->empresa_id)
-        ->select('id', 'grp_titulo')
+        ->select('id', 'grp_titulo as opcion')
         ->orderBy('grp_titulo')
         ->get();
     

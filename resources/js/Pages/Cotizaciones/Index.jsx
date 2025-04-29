@@ -219,12 +219,18 @@ export default function Producto(props) {
                                         </button>
                                     </td>
                                     <td className='border border-gray-400 px-1 py-1 w-12'>
-                                    <Link
-                                        href={`/cotizaciondetalle/${cotizacion.id}`}
-                                        className="mx-4 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded"
-                                    >Detalles
-                                    </Link>
- 
+                                        <Link
+                                            href={`/cotizaciondetalle/${cotizacion.id}`}
+                                            className="mx-4 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded"
+                                        >Detalles
+                                        </Link>
+                                    </td>
+                                    <td className='border border-gray-400 px-1 py-1 w-12'>
+                                        <Link
+                                            href={`/cotizaciondetalle/${cotizacion.id}`}
+                                            className="mx-4 bg-blue-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded"
+                                        >Imprimir
+                                        </Link> 
                                     </td>
                                     <td className='border border-gray-400 px-1 py-1 w-12'>
                                         <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded'

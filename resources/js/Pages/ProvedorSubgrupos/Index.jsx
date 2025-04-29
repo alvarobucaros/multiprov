@@ -14,6 +14,10 @@ export default function ProveedorSubgrupo(props) {
     const [title,setTitle] = useState('');
     const [operation,setOperation] = useState(1);
 
+    const [proveedor, setProveedor] = useState(props.proveedor);
+
+    const [subgrupos, setSubgrupos] = useState(props.subgrupos);
+
     const { data,setData,delete:destroy,post,put,
     processing,reset,errors} = useForm({
         id:'',
@@ -28,11 +32,11 @@ export default function ProveedorSubgrupo(props) {
         setModal(true);
         setOperation(op);
         if(op === 1){
-            setTitle('Añadir Subgrupo al Proveedor');
-            setData({prv_proveedor_id:'', prv_subgrupo_id:'', grp_titulo:''});
+            setTitle('Añadir este Subgrupo al Proveedor');
+            setData({prv_proveedor_id:proveedor.id, prv_subgrupo_id:'', grp_titulo:''});
         }
         else{
-            setTitle('Modificar Subgrupo al Proveedor');
+            setTitle('Modificar este Subgrupo del Proveedor');
         }
     }
 
@@ -64,7 +68,6 @@ export default function ProveedorSubgrupo(props) {
         }
     }
 
-    //'proveedorsubgrupos.id', 'proveedorsubgrupos.prv_proveedor_id', 'proveedorsubgrupos.prv_subgrupo_id', 'subgrupos.sgr_titulo as grp_titulo'
 
     const eliminar = (id, grp_titulo) =>{
         const alerta = Swal.mixin({ buttonsStyling:true});
@@ -116,13 +119,13 @@ export default function ProveedorSubgrupo(props) {
                 className="bg-green-500 text-white px-4 py-1 mx-4 rounded mb-4"
             > Al proveedor
             </Link>
-            <span>PROVEEDOR SUB GRUPO DE PRODUCTOS</span>
+            <span className='bg-blue-100'>PROVEEDOR: {proveedor.prv_nombre} - TELEFONO:  {proveedor.prv_telefono}</span>
             <div className="bg-white grid v-screen place-items-center py-1">
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr className='bg-gray-100'>
                             <th className='px-2 py-1'>#</th>
-                            <th className='px-2 py-1'>GRUPO</th>
+                            <th className='px-2 py-1'>SUBGRUPO</th>
 
                             <th className='px-2 py-1' colSpan={2}></th>
                             
@@ -165,36 +168,31 @@ export default function ProveedorSubgrupo(props) {
                 <h2 className="p-3 text-lg font-medium text-gray-900">
                     {title}
                 </h2>
-                {/* <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
+
+                <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
                     <form onSubmit={save}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                            <MiInput  Id="prv_nombre" Type="text" Label="Nombre Proveedor" onChange={handleChange}
-                                classNameI="md:col-span-2" maxLength ="100" data ={data.prv_nombre} required={true}  
-                                OnChange = {handleChange} ></MiInput>
+                            <div>  
+                                <label htmlFor="prv_subgrupo_id" className="block text-sm font-medium text-gray-700">Subgrupos de productos </label>
 
-                            <MiInput  Id="prv_telefono" Type="text" Label="Teléfono" onChange={handleChange}
-                                classNameI="md:col-span-2" maxLength ="20" data ={data.prv_telefono} required={true}  
-                                OnChange = {handleChange} ></MiInput>
-
-                            <MiLista Id="prv_tipo_doc"  Label="Tipo Documento"  data ={data.prv_tipo_doc} 
-                             options = {tipoDocOptions} OnChange={handleChange} required={true}></MiLista>                                   
-
-
-                            <MiInput  Id="prv_numero_doc" Type="text" Label="Número ocumento" onChange={handleChange}
-                                classNameI="" maxLength ="20" data ={data.prv_numero_doc} required={true}  
-                                OnChange = {handleChange} ></MiInput>
-
-                            <MiInput  Id="prv_email" Type="mail" Label="Teléfono" onChange={handleChange}
-                                classNameI="md:col-span-2" maxLength ="20" data ={data.prv_email} required={true}  
-                                OnChange = {handleChange} ></MiInput>
-
-                            <MiLista Id="prv_estado"  Label="Estado"  data ={data.prv_estado} 
-                            options = {estadoOptions} OnChange={handleChange} required={true}></MiLista>                                
-
-                            <MiInput  Id="prv_calificacion" Type="text" Label="Calificación" onChange={handleChange}
-                                classNameI="" maxLength ="10" data ={data.prv_calificacion} required={true}  
-                                OnChange = {handleChange} ></MiInput>
+                                <select
+                                    id="prv_subgrupo_id" name="prv_subgrupo_id"
+                                    value={data.prv_subgrupo_id}
+                                    onChange={handleChange} 
+                                    required={true}
+                                    className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
+                                >
+                                <option key={0} value={''}>
+                                        {'Seleccione una opción'}
+                                </option>
+                                {subgrupos.map((subgrupo) => (
+                                        <option key={subgrupo.id} value={subgrupo.id}>
+                                            {subgrupo.sgr_titulo}
+                                        </option>
+                                    ))}
+                                </select>                                
+                            </div>
 
                             <div className="flex justify-end">
                                 <button type="button"
@@ -210,7 +208,7 @@ export default function ProveedorSubgrupo(props) {
                             </div>
                         </div>
                     </form>
-                </div> */}
+                </div>
             </Modal>
         </AuthenticatedLayout>
     );
