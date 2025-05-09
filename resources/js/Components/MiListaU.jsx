@@ -27,7 +27,6 @@ export default function MiListaU({Id, Label, data, options = [],  OnChange, requ
                 required={required}
                 className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
             >
-                <option key='0' value="">Selecione una opción</option>
                 {/* Renderiza las opciones pasadas */}
                 {options.map((option) => (
                     <option key={option.value} value={option.label}>

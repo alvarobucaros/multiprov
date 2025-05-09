@@ -14,7 +14,7 @@ export default function MiInput({ Id, Type, Label, classNameI, maxLength, data, 
         type={Type}
         id={Id}
         name={Id}
-        value={data} // Mantén este valor controlado desde React
+        defaultValue={data} // Mantén este valor controlado desde React
         maxLength={maxLength}
         className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 border-gray-300`}
         required={required}

@@ -23,7 +23,7 @@ class ParametroController extends Controller
         return Inertia::render('Empresas/Index', ['empresa' => $empresa]);
     }
 
-    public function store(Request $request, $id)
+    public function store2(Request $request, $id)
 {
     $request->validate([
         'emp_nombre' => 'required|string|max:255',
@@ -46,22 +46,54 @@ class ParametroController extends Controller
     return redirect()->back()->with('success', 'Empresa actualizada exitosamente');
 }
 
+public function store(Request $request)
+{  
+    $request-> validate([
+        'emp_nombre' => 'required|max:100',
+        'emp_direccion' => 'required|max:100',
+        'emp_ciudad' => 'required|max:100',
+        'emp_tipodoc' => 'required|max:100',
+        'emp_nrodoc' => 'required|max:100',
+        'emp_telefono' => 'required|max:100',
+        'emp_email' => 'required|max:100',
+    ]);
 
- 
+    Empresa::create($request->all());
+    return redirect()->back()->with('success', 'Empresa creado exitosamente.');
+}
 
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'emp_nombre' => 'required|string|max:255',
-            'emp_direccion' => 'required|string',
-            // Agregar otras validaciones
-        ]);
+
+public function update(Request $request, $id)
+{
+    $request-> validate([
+        'emp_nombre' => 'required|max:100',
+        'emp_direccion' => 'required|max:100',
+        'emp_ciudad' => 'required|max:100',
+        'emp_tipodoc' => 'required|max:100',
+        'emp_nrodoc' => 'required|max:100',
+        'emp_telefono' => 'required|max:100',
+        'emp_email' => 'required|max:100',
+    ]);
+
+    $empresas = Empresa::find($id);
+    $empresas->fill($request->input())->saveOrFail();
+    return redirect()->back()->with('success', 'Empresa actualizado correctamente');
+}
+
+
+    // public function update(Request $request, $id)
+    // {
+    //     $validatedData = $request->validate([
+    //         'emp_nombre' => 'required|string|max:255',
+    //         'emp_direccion' => 'required|string',
+    //         // Agregar otras validaciones
+    //     ]);
     
-        $empresa = Empresa::findOrFail($id);
-        $empresa->update($validatedData);
+    //     $empresa = Empresa::findOrFail($id);
+    //     $empresa->update($validatedData);
     
-        return response()->json(['message' => 'Registro actualizado correctamente']);
-    }   
+    //     return response()->json(['message' => 'Registro actualizado correctamente']);
+    // }   
 
 
 

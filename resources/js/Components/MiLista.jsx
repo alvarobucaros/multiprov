@@ -23,7 +23,7 @@ export default function MiLista({Id, Label, data, options = [],  OnChange, requi
             <select
                 id={Id}
                 name={Id}
-                value={data} 
+                defaultValue={data} 
                 onChange={OnChange} 
                 required={required}
                 className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
@@ -34,8 +34,7 @@ export default function MiLista({Id, Label, data, options = [],  OnChange, requi
                         {option.label}
                     </option>
                 ))}
-            </select>
-           
+            </select>         
         </div>
     );
 }

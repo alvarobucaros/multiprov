@@ -4,7 +4,7 @@ import { Inertia } from '@inertiajs/inertia';
 import { useRef, useState, React } from 'react';
 import { Head ,useForm, usePage, Link} from '@inertiajs/react';
 import MiInput from '@/Components/MiInput';
-
+import MiLista from '@/Components/MiLista';
 
 export default function Empresa(props) {
     const user = usePage().props.auth.user;
@@ -29,26 +29,37 @@ export default function Empresa(props) {
         emp_estado: empresa?.emp_estado || '',
     });
     
+    const tipoDocOptions = [
+        { value: '', label: '-- Seleccione una opción --' }, // O pción por defecto/placeholder
+        { value: 'N', label: 'Nit' },
+        { value: 'C', label: 'Cédula Ciudadanía' },
+        { value: 'E', label: 'Cédula Extranjería' },
+    ];
+
+    const estadoOptions = [
+        { value: '', label: '-- Selecciona un estado --' }, // O pción por defecto/placeholder
+        { value: 'A', label: 'Activo' },
+        { value: 'I', label: 'Inactivo' },
+    ];
 
     const save = (e) =>{
         e.preventDefault();
         data.logo = fileName;
         if(operation === 1){  
             try {
-                const response =  Inertia.put(`/parametro/${data.id}`, data);// Inertia.post(`/parametro/empresa.id`, data);
+                const response = Inertia.post(`/parametro`, data);
                 alert('Datos actualizados exitosamente : '+data.id);
-              //  console.log('Respuesta:', response);
             } catch (error) {
-                console.error('Error al crear el parametro:', error);
+                console.error('Error al crear la empresa:', error);
             }
         }
         else{      
             try {
-                const response = Inertia.put(`/parametro/${data.id}`, data);
+                 const response = Inertia.put(`/parametro/${data.id}`, data);
                 alert('Datos actualizados exitosamente');
               // console.log('Respuesta:', response);
             } catch (error) {
-                console.error('Error al actualizar el parametro:', error);
+                console.error('Error al actualizar la empresa:', error);
             }
         }
     }
@@ -105,140 +116,39 @@ export default function Empresa(props) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out">
        
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
-                <h2 className="p-0 text-lg font-medium text-gray-900">
-                    Nuestra Empresa
-                </h2>
+                <h2 className="p-0 text-lg font-medium text-gray-900">Nuestra Empresa</h2>
                 <div className="bg-white rounded-lg shadow-xl p-2 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
                     <form onSubmit={save}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* <div className="md:col-span-2">
-                                <label htmlFor="emp_nombre" className="block text-sm font-medium text-gray-700 ">Nombre Empresa </label>
-                                <input
-                                type="text"
-                                id="emp_nombre"
-                                name="emp_nombre"
-                                value={data.emp_nombre} 
-                                onChange={handleChange}
-                                maxLength={100}                       
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                                />                
-                            </div> */}
                           
-                        |<MiInput  Id="emp_nombre" Type="text" Label="Nombre Empresa" onChange={handleChange}
+                        <MiInput  Id="emp_nombre" Type="text" Label="Nombre Empresa" onChange={handleChange}
                          classNameI="md:col-span-2" maxLength ="100" data ={data.emp_nombre} required={true}></MiInput>
                         
                         <MiInput  Id="emp_direccion" Type="text" Label="Dirección" onChange={handleChange}
                          classNameI="md:col-span-2" maxLength ="100" data ={data.emp_direccion} required={true}></MiInput>
-                        {/* <div className="md:col-span-2">
-                            <label htmlFor="emp_direccion" className="block text-sm font-medium text-gray-700 ">Dirección</label>
-                            <input
-                                type="text"
-                                id="emp_direccion"
-                                name="emp_direccion"
-                                value={data.emp_direccion}
-                                onChange={handleChange}
-                                maxLength={100}                       
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required 
-                            />                
-                        </div> */}
-                        <div>
-                            <label htmlFor="emp_ciudad" className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
-                            <input
-                                type="text"
-                                id="emp_ciudad"
-                                name="emp_ciudad"
-                                value={data.emp_ciudad}
-                                onChange={handleChange}
-                                maxLength={100}                       
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                            />                
-                        </div>
-                        <div>
-                            <label htmlFor="emp_telefono" className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-                            <input
-                                type="text"
-                                id="emp_telefono"
-                                name="emp_telefono"
-                                value={data.emp_telefono}
-                                onChange={handleChange}
-                                maxLength={100}                       
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                            />                
-                        </div>
 
-                        <div>
-                            <label htmlFor="emp_tipodoc" className="block text-sm font-medium text-gray-700 mb-1">Tipo Documento *</label>
-                            <select
-                                id="emp_tipodoc"
-                                name="emp_tipodoc"
-                                value={data.emp_tipodoc}
-                                onChange={handleChange}
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                            >
-                                <option value="N">NIT</option>
-                                <option value="C">Cédula</option>
-                                <option value="E">Extranjería</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor="emp_nrodoc" className="block text-sm font-medium text-gray-700 mb-1">Número doc</label>
-                            <input
-                                type="text"
-                                id="emp_nrodoc"
-                                name="emp_nrodoc"
-                                value={data.emp_nrodoc}
-                                onChange={handleChange}
-                                maxLength={100}                       
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                            />                
-                        </div>
-                                      
-                        <div className="md:col-span-2">
-                            <label htmlFor="emp_email" className="block text-sm font-medium text-gray-700 mb-1">Correo</label>
-                            <input
-                                type="mail"
-                                id="emp_email"
-                                name="emp_email"
-                                value={data.emp_email}
-                                onChange={handleChange}
-                                maxLength={100}                       
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                            />                
-                        </div>
-                        <div>
-                            <label htmlFor="emp_estado" className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-                            <select
-                                id="emp_estado"
-                                name="emp_estado"
-                                value={data.emp_estado}
-                                onChange={handleChange}
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                            >
-                                <option value="A">ACTIVO</option>
-                                <option value="I">INACTIVO</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor="emp_fchini" className="block text-sm font-medium text-gray-700 mb-1">Fecha inicio</label>
-                            <input
-                                type="date"
-                                id="emp_fchini"
-                                name="emp_fchini"
-                                value={data.emp_fchini}
-                                onChange={handleChange}
-                                maxLength={100}                       
-                                className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                required
-                            />                
-                        </div>
+                        <MiInput  Id="emp_ciudad" Type="text" Label="Ciudad" onChange={handleChange}
+                         classNameI="" maxLength ="50" data ={data.emp_ciudad} required={true}></MiInput> 
+
+                        <MiInput  Id="emp_telefono" Type="text" Label="Teléfono" onChange={handleChange}
+                         classNameI="" maxLength ="50" data ={data.emp_telefono} required={true}></MiInput> 
+
+                        <MiLista Id="emp_tipodoc"  Label="Tipo Documento"  data ={data.emp_tipodoc} 
+                        options = {tipoDocOptions} OnChange={handleChange} required={true}></MiLista>
+
+                        <MiInput  Id="emp_nrodoc" Type="text" Label="Número Documento" onChange={handleChange}
+                         classNameI="" maxLength ="50" data ={data.emp_nrodoc} required={true}></MiInput> 
+
+                        <MiInput  Id="emp_email" Type="email" Label="Correo" onChange={handleChange}
+                         classNameI="md:col-span-2" maxLength ="100" data ={data.emp_email} required={true}></MiInput>
+
+                        <MiLista Id="emp_estado"  Label="Estado"  data ={data.emp_estado} 
+                        options = {estadoOptions} OnChange={handleChange} required={true}></MiLista>
+
+                        <MiInput  Id="emp_fchini" Type="date" Label="Fecha Inicio" onChange={handleChange}
+                         classNameI="" maxLength ="50" data ={data.emp_fchini} required={true}></MiInput> 
+
+
                         <div >
                             <label htmlFor="emp_logo" className="block text-sm font-medium text-gray-700 mb-1">Logo</label>
                             <input

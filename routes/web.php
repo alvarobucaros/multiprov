@@ -39,6 +39,7 @@ Route::get('/cotizacion/{id}', [ApiCotizacionController::class, 'show'])->name('
 Route::post('/cotizacion', [ApiCotizacionController::class, 'store'])->name('cotizacion.store');
 Route::put('/cotizacion/{id}', [ApiCotizacionController::class, 'update'])->name('cotizacion.update');
 Route::delete('/cotizacion/{id}', [ApiCotizacionController::class, 'destroy'])->name('cotizacion.destroy');
+Route::get('/imprime/{id}', [ApiCotizacionController::class, 'imprime'])->name('cotizacion.imprime');
 
 Route::get('/cotizaciondetalle', [ApiCotizaciondetalleController::class, 'index'])->name('cotizaciondetalle');
 Route::post('/cotizaciondetalle', [ApiCotizaciondetalleController::class, 'store'])->name('cotizaciondetalle.store');
@@ -54,7 +55,7 @@ Route::delete('/producto/{id}', [ApiProductoController::class, 'destroy'])->name
 
 
 Route::get('/parametro', [ApiParametroController::class, 'index'])->name('parametro');
-Route::put('/parametro/{id}', [ApiParametroController::class, 'update'])->name('parametro.store');
+Route::put('/parametro/{id}', [ApiParametroController::class, 'update'])->name('parametro.update');
 
 Route::get('/proveedor', [ApiProveedorController::class, 'index'])->name('proveedor');
 Route::get('/proveedor/{id}', [ApiProveedorController::class, 'show'])->name('proveedor.show');

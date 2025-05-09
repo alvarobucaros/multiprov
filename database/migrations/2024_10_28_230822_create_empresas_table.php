@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('emp_email', 100);
             $table->string('emp_logo', 100);
             $table->date('emp_fchini');
-            $table->int('emp_nrocotizacion');            
+            $table->integer('emp_nrocotizacion');            
             $table->string('emp_estado',1);
             $table->timestamps();
         });

@@ -30,7 +30,16 @@ class CotizacionController extends Controller
             'cotizaciones' => $cotizaciones,
         ]);
     }
-   
+
+
+    public function imprime($id)
+    {
+        $cotizaciones = Cotizacion::where('cotizaciones.id', $id)
+        ->join('empresas', 'cotizaciones.cot_empresa_id', '=', 'empresas.id')
+        ->get();
+
+        return Inertia::render('Cotizaciones/Imprime', ['cotizaciones' => $cotizaciones]);
+    }
     /**
      * Store a newly created resource in storage.
      */

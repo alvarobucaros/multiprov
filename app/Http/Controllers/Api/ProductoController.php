@@ -29,9 +29,9 @@ class ProductoController extends Controller
         'productos.prd_titulo', 'productos.prd_detalle', 'productos.prd_estado')  
         ->orderBy('prd_titulo')  
         ->paginate(10); 
-// dd($productos); // SELECT id, prd_empresa_id, prd_subgrupo_id, prd_titulo, prd_detalle, prd_estado,
+
         $subgrupos = SubGrupo::where('sgr_empresa_id', $user->empresa_id)
-        ->select('id', 'sgr_titulo')
+        ->select('id', 'sgr_titulo as opcion')
         ->orderBy('sgr_titulo')
         ->get();
   

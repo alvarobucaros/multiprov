@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('prv_sociedad_id')->constrained('empresas')->onDelete('cascade'); // Clave foránea
             $table->string('prv_nombre',100);
             $table->string('prv_telefono',50);
-            $table->enum('prv_tipo_doc', ['N', 'C', 'E'])->comment('N=NIT, C=Cedula, E=Extranjeria'); // O el significado que le des
+            $table->enum('prv_tipo_doc', ['N', 'C', 'E', 'P'])->comment('N=NIT, C=Cedula, E=Extranjeria'); // O el significado que le des
             $table->string('prv_numero_doc',100);
             $table->string('prv_email',100);
             $table->tinyInteger('prv_calificacion')->unsigned()->default(5); // 0-9
-            $table->boolean('prv_estado')->default(true);
+            $table->string('prv_estado',1);
             $table->timestamps();
         });
     }

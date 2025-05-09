@@ -57,44 +57,7 @@ export default function Producto(props) {
         setModal(false);
     }
 
-    // const openModalPr = (id) =>{
-    //     setTitle('Detalle cotizacion ') ;
-    //         setDetalles([]); // Limpiar los detalles antes de cargar nuevos datos
-    //       //  const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/cotizaciondetalle/${id}`;
-    //         const apiUrl = `http://localhost:8000/cotizaciondetalle/${id}`;
-    //         // fetch(apiUrl)
-    //         // .then(response => {
-    //         //   if (!response.ok) {
-    //         //     throw new Error(`HTTP error! status: ${response.status}`);
-    //         //   }
-    //         //   return response.json(); // Convertir la respuesta a JSON
-    //         // })
-    //         // .then(data => {
-    //         //   console.log("Detalles recibidos:", data);
-    //         //   setDetalles(data); // Guardar los detalles en el estado
-    //         // })
-    //         // .catch(error => {
-    //         //   console.error("Error al cargar detalles de la cotización:", error);
-    //         //   setErrorDetalles("Error al cargar los detalles de la cotización.");
-    //         // });
-    //         // axios.get(apiUrl)
-    //         // .then(response => {
-    //         //     console.log("Detalles recibidos:", response.data);
-    //         //     setDetalles(response.data); // Guarda los detalles en el estado
-    //         // })
-    //         // .catch(error => {
-    //         //     console.error("Detalles del error:", error.response || error.message);
-    //         //     setErrorDetalles("Error al cargar los detalles de la cotización.");
-    //         // })
- 
-    //     // setModalPr(true);
-    // }
-    
-    // const closeModalPr = () =>{
-   
-    //     setModalPr(false);
-    // }
-    
+       
 
     const estadoOptions = [
         { value: '', label: '-- Selecciona un estado --' }, // O pción por defecto/placeholder
@@ -227,7 +190,7 @@ export default function Producto(props) {
                                     </td>
                                     <td className='border border-gray-400 px-1 py-1 w-12'>
                                         <Link
-                                            href={`/cotizaciondetalle/${cotizacion.id}`}
+                                            href={`/imprime/${cotizacion.id}`}
                                             className="mx-4 bg-blue-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded"
                                         >Imprimir
                                         </Link> 

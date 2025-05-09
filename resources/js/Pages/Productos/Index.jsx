@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import Pagination from '@/Components//Pagination';
 import MiInput from '@/Components/MiInput';
 import MiLista from '@/Components/MiLista';
+import MiSelectDinamico from '@/Components/MiSelectDinamico';
 
 export default function Producto(props) {
         const user = usePage().props.auth.user;
@@ -179,25 +180,12 @@ export default function Producto(props) {
                         <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out scale-100">
                         <form onSubmit={save}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>  
-                                    <label htmlFor="prd_subgrupo_id" className="block text-sm font-medium text-gray-700">Sub Grupo</label>
-                                    <select
-                                        id="prd_subgrupo_id" name="prd_subgrupo_id"
-                                        value={data.prd_grupo_id}
-                                        onChange={handleChange} 
-                                        required={true}
-                                        className={`w-full px-1 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 'border-gray-300'}`}
-                                    >
-                                        {subgrupos.map((subgrupo) => (
-                                            <option key={subgrupo.id} value={subgrupo.id}>
-                                                {subgrupo.sgr_titulo}
-                                            </option>
-                                        ))}
-
-                                    </select>
-                                </div>
+                                
         
-  
+                                <MiSelectDinamico 
+                                Id="prd_subgrupo_id"  Label="Sub Grupo"  data ={data.prd_subgrupo_id} 
+                                listas = {subgrupos} OnChange={handleChange} required={true}>
+                                </MiSelectDinamico>
 
 
                                 <MiInput  Id="prd_titulo" Type="text" Label="Titulo Producto" onChange={handleChange}
