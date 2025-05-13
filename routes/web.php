@@ -40,6 +40,7 @@ Route::post('/cotizacion', [ApiCotizacionController::class, 'store'])->name('cot
 Route::put('/cotizacion/{id}', [ApiCotizacionController::class, 'update'])->name('cotizacion.update');
 Route::delete('/cotizacion/{id}', [ApiCotizacionController::class, 'destroy'])->name('cotizacion.destroy');
 Route::get('/imprime/{id}', [ApiCotizacionController::class, 'imprime'])->name('cotizacion.imprime');
+Route::get('/imprimepdf/{id}', [ApiCotizacionController::class, 'imprimepdf'])->name('cotizacion.imprimepdf');
 
 Route::get('/cotizaciondetalle', [ApiCotizaciondetalleController::class, 'index'])->name('cotizaciondetalle');
 Route::post('/cotizaciondetalle', [ApiCotizaciondetalleController::class, 'store'])->name('cotizaciondetalle.store');

@@ -123,7 +123,7 @@ export default function Producto(props) {
                 <Link
                     href="/cotizacion"
                     className="bg-green-500 text-white px-4 py-1 mx-4 rounded mb-4"
-                    > Al Menú
+                    > A cotizaciones
                 </Link>
                 <span className='bg-blue-100'> DETALLES DE LA COTIZACION : &nbsp; {cotizacion[0].cot_numero} 
                 &nbsp; de &nbsp;{cotizacion[0].cot_fecha}  -  {cotizacion[0].cot_titulo}</span> 

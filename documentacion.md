@@ -14,3 +14,7 @@ git push origin master
 
 Si estás trabajando con más personas, no olvides realizar git pull origin main antes de hacer cambios para evitar conflictos.
 
+mpdf para imprimir
+ compact([
+        //     'cotizaciones',
+        //     'cotdetalles'
